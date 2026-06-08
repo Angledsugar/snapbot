@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="SnapBot: An Autonomous Robotic Photographer — Plan-Real">
+  <meta name="description" content="SnapBot is an autonomous robotic photographer: a collaborative arm tracks and frames you, AnimeGAN restyles the portrait, and it prints a souvenir on the spot. Demoed at the 2023 Korea SW Talent Festival.">
+  <meta name="keywords" content="robotic photography, robot manipulation, human tracking, visual servoing, AnimeGAN, style transfer, Universal Robots, Isaac Gym, ROS, generative AI, robotics, Plan-Real, SnapBot">
+  <meta name="author" content="Chanyeok Choi, Jeonghan Kim, Yunjae Nam, Wanggeon Lee">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Canonical URL (update to your final hosting domain) -->
+  <link rel="canonical" href="https://angledsugar.github.io/snapbot/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Plan-Real">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="SnapBot: An Autonomous Robotic Photographer">
+  <meta property="og:description" content="A collaborative robot arm tracks and frames you, AnimeGAN restyles the portrait, and SnapBot prints a souvenir on the spot. Plan-Real, 2023.">
+  <meta property="og:url" content="https://angledsugar.github.io/snapbot/">
+  <meta property="og:image" content="https://angledsugar.github.io/snapbot/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="SnapBot — An Autonomous Robotic Photographer">
+  <meta property="article:published_time" content="2023-12-17T00:00:00.000Z">
+  <meta property="article:author" content="Chanyeok Choi">
+  <meta property="article:section" content="Robotics">
+  <meta property="article:tag" content="Robotics">
+  <meta property="article:tag" content="Generative AI">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SnapBot: An Autonomous Robotic Photographer">
+  <meta name="twitter:description" content="A collaborative robot arm tracks and frames you, AnimeGAN restyles the portrait, and SnapBot prints a souvenir on the spot. Plan-Real, 2023.">
+  <meta name="twitter:image" content="https://angledsugar.github.io/snapbot/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="SnapBot — An Autonomous Robotic Photographer">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="SnapBot: An Autonomous Robotic Photographer with Human Tracking and Generative Style Transfer">
+  <meta name="citation_author" content="Choi, Chanyeok">
+  <meta name="citation_author" content="Kim, Jeonghan">
+  <meta name="citation_author" content="Nam, Yunjae">
+  <meta name="citation_author" content="Lee, Wanggeon">
+  <meta name="citation_publication_date" content="2023">
+  <meta name="citation_conference_title" content="2023 Korea SW Talent Festival (SW인재페스티벌)">
+
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <title>SnapBot: An Autonomous Robotic Photographer | Plan-Real</title>
+
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/apple-touch-icon.png">
+
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <!-- Page-specific styles -->
+  <style>
+    .snap-eyebrow {
+      display:inline-block; text-transform:uppercase; letter-spacing:.12em;
+      font-size:.78rem; font-weight:700; color:var(--primary-color);
+      background:var(--background-accent); padding:.4rem .9rem; border-radius:999px;
+      margin-bottom:1.5rem;
+    }
+    .publication-subtitle {
+      font-weight:600; color:var(--text-secondary); font-size:1.25rem;
+      margin:-1rem auto 1.75rem; max-width:760px; line-height:1.4;
+    }
+    .author-affil { color:var(--text-secondary); font-weight:600; }
+    .author-affil .org { color:var(--text-primary); }
+    .author-note { color:var(--text-light); font-style:italic; }
+    .teaser-caption { max-width:840px; margin:1.5rem auto 0; }
+
+    /* Pipeline */
+    .pipeline-stage { margin-bottom:3.5rem; }
+    .pipeline-stage:last-child { margin-bottom:0; }
+    .stage-head { display:flex; align-items:center; margin-bottom:1rem; }
+    .stage-num {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:2.5rem; height:2.5rem; border-radius:50%;
+      background:var(--gradient-primary); color:#fff; font-weight:800; font-size:1.15rem;
+      margin-right:.85rem; flex-shrink:0; box-shadow:var(--shadow-md);
+    }
+    .stage-head h3 { margin:0; font-weight:700; font-size:1.45rem; color:var(--text-primary); line-height:1.2; }
+    .stage-text { font-size:1.08rem; line-height:1.8; color:var(--text-secondary); }
+    .stage-fig img { border-radius:var(--border-radius-lg); box-shadow:var(--shadow-lg); width:100%; height:auto; }
+
+    .key-badges { display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin-top:1.75rem; }
+    .key-badge {
+      font-size:.85rem; font-weight:600; color:var(--text-secondary);
+      background:var(--background-primary); border:1px solid var(--border-color);
+      padding:.45rem 1rem; border-radius:999px; box-shadow:var(--shadow-sm);
+    }
+    .key-badge i { color:var(--primary-color); margin-right:.45rem; }
+  </style>
+
+  <!-- Structured Data for Academic Projects -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "SnapBot: An Autonomous Robotic Photographer with Human Tracking and Generative Style Transfer",
+    "description": "SnapBot is an autonomous robotic photographer that unites real-time robotic manipulation with generative AI. A collaborative manipulator tracks and frames a person, AnimeGAN restyles the captured portrait, and the system prints a souvenir on the spot.",
+    "author": [
+      { "@type": "Person", "name": "Chanyeok Choi", "affiliation": { "@type": "Organization", "name": "Plan-Real" } },
+      { "@type": "Person", "name": "Jeonghan Kim", "affiliation": { "@type": "Organization", "name": "Plan-Real" } },
+      { "@type": "Person", "name": "Yunjae Nam", "affiliation": { "@type": "Organization", "name": "Plan-Real" } },
+      { "@type": "Person", "name": "Wanggeon Lee", "affiliation": { "@type": "Organization", "name": "Plan-Real" } }
+    ],
+    "datePublished": "2023-12-17",
+    "publisher": { "@type": "Organization", "name": "2023 Korea SW Talent Festival" },
+    "url": "https://angledsugar.github.io/snapbot/",
+    "image": "https://angledsugar.github.io/snapbot/static/images/social_preview.png",
+    "keywords": ["robotic photography", "manipulation", "human tracking", "AnimeGAN", "style transfer", "generative AI", "robotics"],
+    "isAccessibleForFree": true,
+    "license": "https://opensource.org/licenses/MIT",
+    "about": [
+      { "@type": "Thing", "name": "Robotic Manipulation" },
+      { "@type": "Thing", "name": "Generative Style Transfer" }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Project Links Dropdown -->
+  <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="Project links">
+      <i class="fas fa-link"></i>
+      Project Links
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>Project &amp; Team Links</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+        <a href="https://github.com/Plan-Real/Snapbot" class="work-item" target="_blank" rel="noopener">
+          <div class="work-info">
+            <h5>SnapBot — Source Code</h5>
+            <p>ROS · NVIDIA Isaac Gym · Docker. Manipulator control, perception, and the photography pipeline.</p>
+            <span class="work-venue">GitHub · Plan-Real</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://drive.google.com/file/d/13aQ0mCv9reuY-JInxXiSdqex67w7G5Ey/view" class="work-item" target="_blank" rel="noopener">
+          <div class="work-info">
+            <h5>Demo Video</h5>
+            <p>Watch SnapBot track a visitor, capture, restyle, and print a portrait end to end.</p>
+            <span class="work-venue">Google Drive</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://github.com/Plan-Real" class="work-item" target="_blank" rel="noopener">
+          <div class="work-info">
+            <h5>Plan-Real</h5>
+            <p>The team behind SnapBot — robotics &amp; AI from Hanyang University ERICA.</p>
+            <span class="work-venue">GitHub Organization</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <span class="snap-eyebrow"><i class="fas fa-camera-retro"></i>&nbsp; Live Robotics Demo · 2023</span>
+            <h1 class="title is-1 publication-title">SnapBot</h1>
+            <p class="publication-subtitle">An Autonomous Robotic Photographer — Human-Tracking Manipulation Meets Generative Style Transfer</p>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://github.com/Angledsugar" target="_blank" rel="noopener">Chanyeok Choi</a> (최찬역),</span>
+              <span class="author-block">
+                <a href="https://github.com/Kim-JeongHan" target="_blank" rel="noopener">Jeonghan Kim</a> (김정한),</span>
+              <span class="author-block">
+                <a href="https://github.com/ujma1234" target="_blank" rel="noopener">Yunjae Nam</a> (남윤재),</span>
+              <span class="author-block">
+                Wanggeon Lee (이왕건)<sup>†</sup></span>
+            </div>
+
+            <div class="is-size-6 publication-authors">
+              <span class="author-affil"><span class="org">Plan-Real (Plan-R)</span> · Hanyang University ERICA</span><br>
+              <span class="author-affil">2023 Korea SW Talent Festival (SW인재페스티벌) · 2023 HYU ERICA Spring Festival</span>
+              <span class="author-note"><small><br><sup>†</sup>Robot Hardware Development. Robot &amp; AI software by C. Choi, J. Kim, and Y. Nam.</small></span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Demo video -->
+                <span class="link-block">
+                  <a href="https://drive.google.com/file/d/13aQ0mCv9reuY-JInxXiSdqex67w7G5Ey/view" target="_blank" rel="noopener"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-video"></i></span>
+                  <span>Demo Video</span>
+                </a>
+              </span>
+
+              <!-- Code -->
+              <span class="link-block">
+                <a href="https://github.com/Plan-Real/Snapbot" target="_blank" rel="noopener"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Code</span>
+              </a>
+            </span>
+
+            <!-- Organization -->
+            <span class="link-block">
+              <a href="https://github.com/Plan-Real" target="_blank" rel="noopener"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon"><i class="fas fa-users"></i></span>
+              <span>Plan-Real</span>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+<!-- Teaser -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="publication-banner">
+        <img src="static/images/overview.jpg" alt="SnapBot system overview: front and back views of the robot, NVIDIA Isaac Gym simulation, real-time human tracking, and the live control dashboard." loading="eager">
+      </div>
+      <h2 class="subtitle has-text-centered teaser-caption">
+        SnapBot tracks a person with a collaborative manipulator, captures a portrait, restyles it with a generative
+        network, and prints it on the spot — a complete, hands-free <em>AI photo studio operated by a robot</em>.
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser -->
+
+<!-- Abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            <strong>SnapBot</strong> is an autonomous robotic photographer that unites real-time robotic manipulation
+            with generative AI to deliver a complete, hands-free photo-studio experience. A six-degree-of-freedom
+            Universal Robots collaborative manipulator, equipped with an eye-in-hand camera, detects and tracks a
+            person in real time, autonomously servoing its end-effector to keep the subject centered and well-framed
+            before capturing a portrait. The captured frame is transformed by a generative style-transfer network
+            (<strong>AnimeGAN</strong>) into a stylized rendition; the subject selects a favorite, composites it into a
+            themed frame, and receives an instantly printed photograph. The manipulator's tracking and motion behaviors
+            are developed and validated in NVIDIA Isaac Gym simulation before transfer to the physical robot, and the
+            full system — perception, control, generation, and printing — is orchestrated through ROS and containerized
+            with Docker for reproducible deployment. SnapBot was demonstrated live at the
+            <strong>2023 Korea SW Talent Festival</strong> and the <strong>2023 HYU ERICA Spring Festival</strong>,
+            where it served as an interactive AI photo studio that a robot operates for you.
+          </p>
+        </div>
+        <div class="key-badges">
+          <span class="key-badge"><i class="fas fa-robot"></i>Universal Robots arm</span>
+          <span class="key-badge"><i class="fas fa-crosshairs"></i>Real-time human tracking</span>
+          <span class="key-badge"><i class="fas fa-wand-magic-sparkles"></i>AnimeGAN style transfer</span>
+          <span class="key-badge"><i class="fas fa-cube"></i>Isaac Gym sim-to-real</span>
+          <span class="key-badge"><i class="fas fa-diagram-project"></i>ROS + Docker</span>
+          <span class="key-badge"><i class="fas fa-print"></i>Instant photo print</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End abstract -->
+
+<!-- Pipeline / How it works -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">How SnapBot Works</h2>
+
+    <!-- Stage 1: tracking -->
+    <div class="columns is-vcentered pipeline-stage">
+      <div class="column is-half">
+        <div class="stage-head"><span class="stage-num">1</span><h3>Human Tracking &amp; Autonomous Framing</h3></div>
+        <p class="stage-text">
+          SnapBot begins by finding its subject. The eye-in-hand RGB camera on the collaborative arm detects the person
+          and continuously tracks them, servoing the end-effector so the subject stays centered and well-composed. The
+          tracking and reaching behaviors were first developed and stress-tested in <strong>NVIDIA Isaac Gym</strong>
+          simulation, then transferred to the physical manipulator — letting the team iterate on motion safely before
+          ever deploying around people.
+        </p>
+      </div>
+      <div class="column is-half stage-fig">
+        <img src="static/images/tracking.jpg" alt="A person stands in front of the robot arm while a screen shows the camera view with the subject detected and an Isaac Gym simulation of the manipulator.">
+      </div>
+    </div>
+
+    <!-- Stage 2: AnimeGAN -->
+    <div class="columns is-vcentered pipeline-stage">
+      <div class="column is-half stage-fig">
+        <img src="static/images/animegan.jpg" alt="A selection screen showing four captured portraits, one chosen, under the heading 'AI photo transformation'.">
+      </div>
+      <div class="column is-half">
+        <div class="stage-head"><span class="stage-num">2</span><h3>Generative Style Transfer</h3></div>
+        <p class="stage-text">
+          Once a shot is captured, SnapBot presents a set of candidate portraits and re-renders them with
+          <strong>AnimeGAN</strong>, a generative network that turns an ordinary photo into a stylized,
+          illustration-like rendition. The subject simply taps the version they like best — no editing skills required.
+        </p>
+      </div>
+    </div>
+
+    <!-- Stage 3: frame -->
+    <div class="columns is-vcentered pipeline-stage">
+      <div class="column is-half">
+        <div class="stage-head"><span class="stage-num">3</span><h3>Frame Composition</h3></div>
+        <p class="stage-text">
+          The chosen portrait is composited into a themed photo frame — here branded for the
+          <strong>2023 HYU ERICA Spring Festival</strong> — with several layouts to choose from, turning a quick
+          capture into a finished, personalized keepsake.
+        </p>
+      </div>
+      <div class="column is-half stage-fig">
+        <img src="static/images/frame.jpg" alt="A framed portrait with a 'Plan R / 2023 HYU ERICA Spring Festival' decorative border and four frame options to choose from.">
+      </div>
+    </div>
+
+    <!-- Stage 4: print -->
+    <div class="columns is-vcentered pipeline-stage">
+      <div class="column is-half stage-fig">
+        <img src="static/images/print.jpg" alt="A compact photo printer outputs the finished framed portrait.">
+      </div>
+      <div class="column is-half">
+        <div class="stage-head"><span class="stage-num">4</span><h3>Instant Printing</h3></div>
+        <p class="stage-text">
+          Finally, SnapBot sends the framed image to a dye-sublimation photo printer and hands the visitor a physical
+          print — closing the loop from robotic perception all the way to a souvenir in your hand in under a minute.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End pipeline -->
+
+<!-- Video -->
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Video</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <div class="publication-video">
+            <iframe src="https://drive.google.com/file/d/13aQ0mCv9reuY-JInxXiSdqex67w7G5Ey/preview"
+                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+          <h2 class="subtitle has-text-centered" style="margin-top:1.25rem;">
+            End-to-end demo: human tracking, capture, AnimeGAN restyling, frame selection, and printing.
+            &nbsp;<a href="https://drive.google.com/file/d/13aQ0mCv9reuY-JInxXiSdqex67w7G5Ey/view" target="_blank" rel="noopener">Open in a new tab&nbsp;<i class="fas fa-external-link-alt"></i></a>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End video -->
+
+<!-- Gallery carousel -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">SnapBot in the Wild</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <img src="static/images/gallery1.jpg" alt="A festival-goer is photographed by the robot arm at an outdoor booth." loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            A festival-goer is photographed live by SnapBot — the arm tracks and frames the subject on its own.
+          </h2>
+        </div>
+        <div class="item">
+          <img src="static/images/gallery2.jpg" alt="A Universal Robots collaborative arm mounted on an aluminum-extrusion rig in the lab." loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            The SnapBot platform: a Universal Robots collaborative arm with an eye-in-hand camera on a custom rig.
+          </h2>
+        </div>
+        <div class="item">
+          <img src="static/images/gallery3.jpg" alt="The outdoor 'Plan R' booth with monitors and a 3D-printed wheel displaying printed photos." loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            The Plan-R booth, with a custom 3D-printed wheel showing off freshly printed portraits.
+          </h2>
+        </div>
+        <div class="item">
+          <img src="static/images/gallery4.jpg" alt="A promotional flyer reading 'An AI photo studio that a robot takes for you' with the team photo." loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            “An AI photo studio operated by a robot” — the Plan-R team at the 2023 SW Talent Festival.
+          </h2>
+        </div>
+        <div class="item">
+          <img src="static/images/gallery5.jpg" alt="Assembly of a white 3D-printed wheel with colorful gondola-shaped photo holders." loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            Building the custom 3D-printed wheel that displays the printed photographs.
+          </h2>
+        </div>
+        <div class="item">
+          <img src="static/images/gallery6.jpg" alt="The team operating the full SnapBot system at the outdoor festival booth." loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            Running the full perception–control–generation–print stack live at the outdoor booth.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End gallery carousel -->
+
+<!-- BibTeX -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <div class="bibtex-header">
+      <h2 class="title">BibTeX</h2>
+      <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+        <i class="fas fa-copy"></i>
+        <span class="copy-text">Copy</span>
+      </button>
+    </div>
+    <pre id="bibtex-code"><code>@misc{snapbot2023,
+  title        = {SnapBot: An Autonomous Robotic Photographer with Human
+                  Tracking and Generative Style Transfer},
+  author       = {Choi, Chanyeok and Kim, Jeonghan and Nam, Yunjae and Lee, Wanggeon},
+  year         = {2023},
+  howpublished = {2023 Korea SW Talent Festival (SW인재페스티벌), Plan-Real},
+  note         = {Project page: https://angledsugar.github.io/snapbot},
+  url          = {https://github.com/Plan-Real/Snapbot}
+}</code></pre>
+  </div>
+</section>
+<!-- End BibTeX -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            <strong>SnapBot</strong> by <a href="https://github.com/Plan-Real" target="_blank" rel="noopener">Plan-Real</a>,
+            Hanyang University ERICA. Released under the
+            <a href="https://github.com/Plan-Real/Snapbot/blob/master/LICENSE" target="_blank" rel="noopener">MIT License</a>.
+          </p>
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>,
+            adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page.
+            The website content is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </main>
+  </body>
+  </html>
