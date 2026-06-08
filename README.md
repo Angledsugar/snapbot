@@ -1,28 +1,33 @@
 # SnapBot — Project Page
 
-Source for the **SnapBot** project page: an autonomous robotic photographer that pairs a
-human-tracking collaborative manipulator with generative (AnimeGAN) style transfer and on-the-spot
-photo printing. Built by **[Plan-Real](https://github.com/Plan-Real)** (Hanyang University ERICA) and
-demonstrated at the *2023 Korea SW Talent Festival (SW인재페스티벌)* and *2023 HYU ERICA Spring Festival*.
+Project page for **SnapBot: Enabling Dynamic Human-Robot Interactions for Real-Time Computational
+Photography** — a human-robot interaction system that detects face and pose for exposure and focus,
+interactively controls a **UR3** arm for camera composition, and performs image scoring and
+enhancement as an end-to-end pipeline. By Chanyeok Choi, Jeonghan Kim, Yunjae Nam, and Youngmoon Lee
+(**Hanyang University ERICA**).
 
-- **Project code:** https://github.com/Plan-Real/Snapbot
+> **Late-Breaking Report**, *Companion of the 2024 ACM/IEEE International Conference on Human-Robot
+> Interaction (HRI '24)*, Boulder, CO, USA, pp. 327–331.
+
+- **Paper (ACM):** https://dl.acm.org/doi/10.1145/3610978.3640712 — `doi:10.1145/3610978.3640712`
+- **Code:** https://github.com/Plan-Real/Snapbot
 - **Demo video:** https://drive.google.com/file/d/13aQ0mCv9reuY-JInxXiSdqex67w7G5Ey/view
+- **Live page:** https://angledsugar.github.io/snapbot/
 
 ## View locally
 
-It is a static site — open `index.html` directly, or serve it (recommended, so the carousel/iframe work):
+Static site — open `index.html`, or serve it (recommended, so the carousel/iframe work):
 
 ```bash
-python3 -m http.server 8000
-# then visit http://localhost:8000
+python3 -m http.server 8000   # then visit http://localhost:8000
 ```
 
-## Deploy (GitHub Pages)
+## Deploy
 
-Push these files to a repo and enable Pages (the `.nojekyll` file is already included so the
-`static/` assets are served as-is). The page currently assumes it will live at
-`https://angledsugar.github.io/snapbot/` — if you host it elsewhere, update the `og:url`,
-`canonical`, and `og:image` / `twitter:image` URLs near the top of `index.html`.
+Hosted from `github.com/Angledsugar/snapbot` (`main` branch, GitHub Pages from `/`) at
+`https://angledsugar.github.io/snapbot/`. The `.nojekyll` file keeps `static/` served as-is. To
+update: edit here and push to `main`. If you move the domain, update the `og:url`, `canonical`, and
+`og:image` / `twitter:image` URLs near the top of `index.html`.
 
 ## Structure
 
@@ -32,17 +37,23 @@ static/css/             # Bulma + the template's index.css
 static/js/              # carousel, BibTeX-copy, scroll-to-top (index.js)
 static/images/
   overview.jpg          # teaser / system overview
-  tracking.jpg          # pipeline 1 — human tracking & framing
-  animegan.jpg          # pipeline 2 — AnimeGAN style transfer
-  frame.jpg             # pipeline 3 — frame composition
-  print.jpg             # pipeline 4 — instant printing
-  gallery1..6.jpg       # "SnapBot in the Wild" carousel
+  tracking.jpg          # pipeline 1 — perception: face & pose -> exposure & focus
+  gallery2.jpg          # pipeline 2 — control: interactive camera composition
+  animegan.jpg          # pipeline 3 — computational photography: scoring & enhancement
+  print.jpg             # live-deployment output
+  gallery1..6.jpg       # "Live Deployment" carousel
   social_preview.png    # 1200×630 link-share card
   favicon.ico / apple-touch-icon.png
 ```
 
+## Note on figures
+
+The figures here are real photos of the system and its live festival deployment. The actual paper
+figures (system diagram, ablation results) live in the ACM PDF; drop the PDF into this folder if you
+want them extracted and swapped in.
+
 ## Credits
 
 Page built on the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template)
-(adapted from [Nerfies](https://nerfies.github.io)). Project code is MIT-licensed; the website content
-is licensed under [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/).
+(adapted from [Nerfies](https://nerfies.github.io)). Paper © 2024 ACM. Source code is MIT-licensed;
+the website content is licensed under [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/).
