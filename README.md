@@ -36,11 +36,12 @@ index.html              # all page content (edit here)
 static/css/             # Bulma + the template's index.css
 static/js/              # carousel, BibTeX-copy, scroll-to-top (index.js)
 static/images/
-  overview.jpg          # teaser / system overview
-  tracking.jpg          # pipeline 1 — perception: face & pose -> exposure & focus
-  gallery2.jpg          # pipeline 2 — control: interactive camera composition
-  animegan.jpg          # pipeline 3 — computational photography: scoring & enhancement
-  print.jpg             # live-deployment output
+  teaser_fig1.jpg       # paper Fig. 1 — teaser (head-pose tracking, before/after)
+  system_fig2.jpg       # paper Fig. 2 — system architecture
+  composition_fig3.jpg  # paper Fig. 3 — camera composition (control)
+  results_fig4.jpg      # paper Fig. 4 — component-wise comparison
+  tracking.jpg          # pipeline 1 — perception (real detection photo)
+  animegan.jpg          # pipeline 3 — scoring & enhancement (selection UI)
   gallery1..6.jpg       # "Live Deployment" carousel
   social_preview.png    # 1200×630 link-share card
   favicon.ico / apple-touch-icon.png
@@ -48,9 +49,8 @@ static/images/
 
 ## Note on figures
 
-The figures here are real photos of the system and its live festival deployment. The actual paper
-figures (system diagram, ablation results) live in the ACM PDF; drop the PDF into this folder if you
-want them extracted and swapped in.
+Figures 1–4 are the actual paper figures, extracted from the ACM PDF. The paper PDF itself is **not**
+redistributed here — the page links to it on the [ACM Digital Library](https://dl.acm.org/doi/10.1145/3610978.3640712).
 
 ## Credits
 
